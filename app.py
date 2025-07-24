@@ -4,130 +4,109 @@ from datetime import datetime
 
 # --- Page Settings ---
 st.set_page_config(
-    page_title="LinkedIntel by Chitra",
+    page_title="LinkedIntel – Free AI Tool",
     page_icon="📊",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded",
 )
 
-# --- Sidebar Branding ---
+# --- Global Styles for Dark Theme ---
+st.markdown("""
+    <style>
+        body { background-color: #0F1116; color: #E5E5E5; }
+        .stSidebar { background-color: #13151D; }
+        .stButton>button { background-color: #2563EB; color: white; }
+        .stDownloadButton>button { background-color: #10B981; color: white; }
+        .stTextInput>div>div>input, .stSelectbox>div>div>div>select {
+            background-color: #1F2026; color: #E5E5E5; border: 1px solid #2A2C34;
+        }
+        .stDataFrame { border: none; }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- Sidebar: Your Photo & Profile ---
 with st.sidebar:
-    st.image("https://i.imgur.com/Jz4X1kO.png", width=150)  # You can upload your own image and host it on Imgur
-    st.markdown("### Hey, I’m Chitra 👋")
-    st.markdown("""
-    I built **LinkedIntel** to help you show up smarter on LinkedIn.
+    st.markdown("### Chitra")
+    st.image("https://i.imgur.com/YourImgurID.png", width=160)  # replace with your actual Imgur URL
+    st.markdown("High‑end AI tool to surface the latest LinkedIn content strategies.")
 
-    Want help with your personal brand?  
-    👉 [Connect with me on LinkedIn](https://linkedin.com/in/chitrabaraj)
-    """)
-    st.markdown("---")
-    st.markdown("💌 Reach me: hellochitraba@gmail.com")
+# --- Main Header & Description ---
+st.markdown("## LinkedIntel – Free AI Tool")
+st.markdown("Discover the top-performing LinkedIn content in your industry and role, and get an editable 7‑day content calendar—all in one place.")
 
-# --- Main Section ---
-st.title("🚀 LinkedIntel – LinkedIn Trend Planner")
-st.markdown("Tell me about you and I’ll build your 7-day LinkedIn calendar with smart trend insights ✨")
-
-# --- Input Form ---
-with st.form("input_form"):
+# --- Input Section ---
+st.markdown("#### Step 1: Tell me about yourself")
+with st.form("plan_form"):
     col1, col2 = st.columns(2)
-
     with col1:
-        name = st.text_input("Your Name", placeholder="e.g., Chitra")
-        email = st.text_input("Your Email")
-
+        name = st.text_input("Name", placeholder="e.g. Chitra")
+        industry = st.selectbox("Industry", ["Marketing", "Product", "Design", "Tech", "Finance", "Consulting"], index=0)
     with col2:
-        industry = st.text_input("Your Industry", placeholder="e.g., Marketing")
-        role = st.selectbox("Your Role", [
-            "Marketing Manager", "Product Manager", "Designer",
-            "Founder", "Content Creator", "Recruiter",
-            "Analyst", "Sales Executive", "Freelancer"
-        ])
+        role = st.selectbox("Role", ["Marketing Manager", "Product Manager", "Designer", "Founder", "Content Creator", "Freelancer"], index=5)
+        email = st.text_input("Email (optional)", placeholder="email@domain.com")
+    go = st.form_submit_button("Generate Insights")
 
-    submitted = st.form_submit_button("⚡ Build My Plan")
+if go:
+    st.markdown(f"**Hi {name}, generating current LinkedIn insights for {role} in {industry}…**")
 
-# --- Output Section ---
-if submitted:
-    st.success(f"Awesome, {name}! Here's what’s trending for a **{role}** in **{industry}** 👇")
+    # --- Simulated Trend Output ---
+    st.markdown("### 🔍 Top LinkedIn Posts")
+    cols = st.columns(2)
+    with cols[0]:
+        st.markdown("- How AI is reshaping marketing in 2025")
+        st.markdown("- 10 viral frameworks for content creators")
+        st.markdown("- Freelancer to founder: 3‑year journey")
+        st.markdown("- Visual storytelling tips for carousels")
+        st.markdown("- Decoding LinkedIn algorithm 2025")
+    with cols[1]:
+        st.markdown("### 👥 Top Influencers")
+        st.markdown("- Justin Welsh")
+        st.markdown("- Katelyn Bourgoin")
+        st.markdown("- Shaan Puri")
+        st.markdown("- Amanda Natividad")
+        st.markdown("- Ross Simmonds")
 
-    st.markdown("## 🔥 Top LinkedIn Trends")
-    col1, col2 = st.columns(2)
+    st.markdown("### 🏷️ Trending Hashtags")
+    st.write(["#MarketingStrategy", "#ContentCreation", "#LinkedInTips", "#GrowthHacking", "#FreelancerLife"])
 
-    with col1:
-        st.markdown("### 🔗 Top 5 LinkedIn Posts")
-        st.markdown("""
-        1. [How AI is transforming marketing in 2025](https://linkedin.com)
-        2. [10 viral frameworks for content creators](https://linkedin.com)
-        3. [From freelancer to founder: 3-year journey](https://linkedin.com)
-        4. [Visual storytelling tips for carousels](https://linkedin.com)
-        5. [LinkedIn algorithm decoded in 2025](https://linkedin.com)
-        """)
-
-    with col2:
-        st.markdown("### 👤 Top 5 Influencers")
-        st.markdown("""
-        - [Justin Welsh](https://linkedin.com)
-        - [Katelyn Bourgoin](https://linkedin.com)
-        - [Shaan Puri](https://linkedin.com)
-        - [Amanda Natividad](https://linkedin.com)
-        - [Ross Simmonds](https://linkedin.com)
-        """)
-
-    st.markdown("### 🏷️ Top 10 Hashtags")
-    st.write(["#MarketingStrategy", "#ContentCreation", "#LinkedInTips", "#GrowthHacking", "#FreelancerLife",
-              "#PersonalBrand", "#AIforMarketing", "#Storytelling", "#SocialSelling", "#CreatorEconomy"])
-
-    st.markdown("### 🛠️ Free Tools to Use")
-    st.write([
-        "🧠 ChatGPT Free", "🎨 Canva", "✍️ Notion", "📊 Tally.so", "📷 Pexels", 
-        "📹 CapCut", "🧼 Remove.bg", "📈 Google Trends", "📌 Typefully", "🖌️ Looka"
-    ])
-
-    st.markdown("---")
-    st.markdown("## 📅 7-Day LinkedIn Content Calendar")
-    
-    calendar_data = {
-        "Day": [f"Day {i+1}" for i in range(7)],
-        "Post Type": ["Carousel", "Poll", "Meme", "Text Post", "Video", "Carousel", "Quote"],
-        "Topic": [
-            "AI Trends in Marketing", "Audience Pain Points", "Marketing Humor", 
-            "Personal Story", "Tool Demo", "Industry Insight", "Motivational CTA"
-        ],
-        "Caption": [
-            "Here's how AI is changing marketing (and how to stay ahead) 🧠",
-            "What's your biggest LinkedIn struggle? 🗳️",
-            "POV: Client wants it viral in 2 days 😂",
-            "3 things I wish I knew before freelancing…",
-            "Here’s how I use Canva + Notion to plan content 🔧",
-            "The biggest myth in growth marketing is…",
-            "Don’t wait to be chosen. Start creating. 🚀"
-        ],
-        "Hashtags": [
-            "#AIforMarketing #LinkedInTips",
-            "#Poll #PersonalBrand",
-            "#MarketingMeme #Humor",
-            "#CareerTips #FreelancerLife",
-            "#Canva #CapCut #Productivity",
-            "#GrowthMarketing #ContentStrategy",
-            "#Motivation #StartNow"
-        ],
-        "Best Time to Post": [
-            "10:00 AM", "12:00 PM", "9:30 AM", "11:00 AM", "2:00 PM", "10:30 AM", "8:45 AM"
-        ],
-        "CTA": [
-            "Save this!", "Vote below!", "Tag a friend!", "Share your story", 
-            "Try this tool", "Agree or disagree?", "Drop a ❤️ if you relate"
-        ]
+    st.markdown("### 🛠️ Free AI Tools (by category)")
+    cols = st.columns(3)
+    tools = {
+        "Writing": [("ChatGPT Free", "https://chat.openai.com"), ("Notion", "https://notion.com")],
+        "Design": [("Canva", "https://canva.com"), ("Remove.bg", "https://remove.bg")],
+        "Video": [("CapCut", "https://capcut.com"), ("Pexels Videos", "https://pexels.com")],
+        "Audio": [("Audacity", "https://audacityteam.org")]
     }
+    for i, (cat, items) in enumerate(tools.items()):
+        with cols[i % 3]:
+            st.markdown(f"**{cat}**")
+            for name, url in items:
+                st.markdown(f"- [{name}]({url})")
 
-    df = pd.DataFrame(calendar_data)
+    # --- 7-Day Calendar ---
+    st.markdown("### 📅 7‑Day Content Calendar")
+    days = [f"Day {i+1}" for i in range(7)]
+    posts = ["Carousel", "Poll", "Memes", "Text Post", "Video", "Carousel", "Quote"]
+    topics = ["AI trends", "Ask audience", "Lighthearted meme", "Personal story", "Tool demo", "Industry insight", "Motivational CTA"]
+    captions = ["Deep dive into AI today...", "What’s your biggest LinkedIn struggle?", "When client says…", "3 lessons I learned…", "Here’s how I use X tool", "The biggest myth in Y is…", "Don’t wait, create now."]
+    times = ["10:00", "12:00", "09:30", "11:00", "14:00", "10:30", "08:45"]
+    cta = ["Save this", "Vote below", "Tag someone", "Share your thoughts", "Try this tool", "Agree or disagree", "Drop a ❤️"]
+
+    df = pd.DataFrame({
+        "Day": days,
+        "Post Type": posts,
+        "Topic": topics,
+        "Caption": captions,
+        "Hashtags": ["#MarketingStrategy" for _ in days],
+        "Best Time": times,
+        "CTA": cta
+    })
     st.dataframe(df, use_container_width=True)
+    csv = df.to_csv(index=False).encode()
+    st.download_button("Download CSV", csv, "LinkedIntel.csv")
 
-    # Download Button
-    csv = df.to_csv(index=False).encode('utf-8')
-    st.download_button(
-        label="📥 Download Calendar as CSV",
-        data=csv,
-        file_name='LinkedIntel_Calendar.csv',
-        mime='text/csv',
-    )
+    st.markdown("---")
+    st.markdown("**💡 Tip:** Use this calendar as a daily guide—customize captions, swap media formats, and post at ideal times.")
 
-    st.markdown("✅ Your LinkedIn calendar is ready. Now go post like a pro 💼")
+# --- Footer ---
+st.markdown("<div style='text-align:center; padding:10px;'>Built by Chitra with no‑code tools · Share on LinkedIn</div>", unsafe_allow_html=True)
